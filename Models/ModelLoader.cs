@@ -150,9 +150,20 @@ namespace MCSkin3D
 								writer.WriteElementString("Name", name);
 
 								if (!string.IsNullOrEmpty(textureRef))
-									writer.WriteElementString("DefaultTexture", System.Convert.ToBase64String(File.ReadAllBytes(rootPos)));
+                                {
+                                    if (System.IO.File.Exists(rootPos))
+                                    {
+                                        writer.WriteElementString("DefaultTexture", System.Convert.ToBase64String(File.ReadAllBytes(rootPos)));
+                                    }
+                                    else
+                                    {
+                                        var tempRootPos = Environment.ExpandEnvironmentVariables(@"%appdata%\.minecraft\versions\1.9.2\1.9.2\assets\minecraft\textures\entity\alex.png");
+                                        Console.WriteLine("File not found \'" + rootPos + "\'. Using file instead: \'" + tempRootPos + "'");
+                                        writer.WriteElementString("DefaultTexture", System.Convert.ToBase64String(File.ReadAllBytes(tempRootPos)));
+                                    }
+                                }
 
-								int tw = textureWidth, th = textureHeight;
+                                int tw = textureWidth, th = textureHeight;
 
 								writer.WriteStartElement("Geometry");
 								{
