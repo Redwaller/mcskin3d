@@ -84,10 +84,10 @@ namespace MCSkin3D
 			TreeViewNodeSorter = new SkinNodeSorter();
 			AllowDrop = true;
 
-			long style = GetWindowLong(Handle, GWL_STYLE);
+			uint style = GetWindowLong(Handle, GWL_STYLE);
 			style |= 0x8000;
 
-			SetWindowLong(Handle, GWL_STYLE, (uint)style);
+			SetWindowLong(Handle, GWL_STYLE, style);
 		}
 
 		protected override void OnEnabledChanged(EventArgs e)
@@ -122,13 +122,13 @@ namespace MCSkin3D
 		[DllImport("user32.dll")]
 		private static extern int SetScrollPos(IntPtr hWnd, int nBar, int nPos, bool bRedraw);
 
-		[DllImport("user32.dll", ExactSpelling = false, CharSet = CharSet.Auto)]
-		private static extern long GetWindowLong(IntPtr hwnd, int nIndex);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
 
-		[DllImport("user32.dll", ExactSpelling = false, CharSet = CharSet.Auto)]
-		private static extern void SetWindowLong(IntPtr hwnd, int nIndex, uint value);
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
 
-		public void t_Elapsed(object sender, ElapsedEventArgs e)
+        public void t_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			if (negativeTimer)
 			{
@@ -198,7 +198,7 @@ namespace MCSkin3D
 
 		private bool verticalScrollBarVisible()
 		{
-			long wndStyle = wndStyle = GetWindowLong(Handle, GWL_STYLE);
+			uint wndStyle = wndStyle = GetWindowLong(Handle, GWL_STYLE);
 			return ((wndStyle & WS_VSCROLL) != 0);
 		}
 
