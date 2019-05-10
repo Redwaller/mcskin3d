@@ -1053,8 +1053,10 @@ namespace MCSkin3D
 						output.Y >= CurrentModel.DefaultHeight)
 						return false;
 
-					hitPixel = new Point((int)Math.Floor(output.X), (int)Math.Floor(output.Y));
-					return true;
+                    var xFactor = _lastSkin.Width / CurrentModel.DefaultWidth;
+                    var yFactor = _lastSkin.Height / CurrentModel.DefaultHeight;
+                    hitPixel = new Point((int)Math.Floor(output.X * xFactor), (int)Math.Floor(output.Y * yFactor));
+                    return true;
 				}
 
 				return false;
@@ -1163,9 +1165,11 @@ namespace MCSkin3D
 
 						//var coord = u * tc0 + v * tc1 + (1 - u - v) * tc2;
 						var coord = (1 - u - v) * st0 + u * st1 + v * st2;
-						hitPixel = new Point((int)Math.Floor(coord.X * CurrentModel.DefaultWidth), (int)Math.Floor(coord.Y * CurrentModel.DefaultHeight));
+                        var xFactor = _lastSkin.Width / CurrentModel.DefaultWidth;
+                        var yFactor = _lastSkin.Height / CurrentModel.DefaultHeight;
+                        hitPixel = new Point((int)Math.Floor(coord.X * CurrentModel.DefaultWidth * xFactor), (int)Math.Floor(coord.Y * CurrentModel.DefaultHeight * yFactor));
 
-						return true;
+                        return true;
 					}
 
 					return false;
