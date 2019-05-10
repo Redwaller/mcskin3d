@@ -87,7 +87,7 @@ namespace MCSkin3D
 			long style = GetWindowLong(Handle, GWL_STYLE);
 			style |= 0x8000;
 
-			SetWindowLong(Handle, GWL_STYLE, style);
+			SetWindowLong(Handle, GWL_STYLE, (uint)style);
 		}
 
 		protected override void OnEnabledChanged(EventArgs e)
@@ -126,7 +126,7 @@ namespace MCSkin3D
 		private static extern long GetWindowLong(IntPtr hwnd, int nIndex);
 
 		[DllImport("user32.dll", ExactSpelling = false, CharSet = CharSet.Auto)]
-		private static extern void SetWindowLong(IntPtr hwnd, int nIndex, long value);
+		private static extern void SetWindowLong(IntPtr hwnd, int nIndex, uint value);
 
 		public void t_Elapsed(object sender, ElapsedEventArgs e)
 		{
